@@ -3,6 +3,7 @@ import { EMPTY_TOKENS, type OauthData, type Tokens } from "@wix/sdk";
 
 export const WIX_TOKEN_COOKIE = "wix_tokens";
 export const WIX_OAUTH_COOKIE = "wix_oauth_data";
+export const WIX_AUTH_FLOW_COOKIE = "wix_auth_flow";
 export const WIX_TOKEN_MAX_AGE_SECONDS = 60 * 60 * 24 * 30;
 const WIX_OAUTH_MAX_AGE_SECONDS = 60 * 10;
 
@@ -48,6 +49,18 @@ export async function setWixOAuthDataCookie(oauthData: OauthData) {
   });
 }
 
+export async function setWixAuthFlowCookie(flow: "popup" | "redirect") {
+  const cookieStore = await cookies();
+
+  cookieStore.set(WIX_AUTH_FLOW_COOKIE, flow, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: WIX_OAUTH_MAX_AGE_SECONDS,
+  });
+}
+
 export async function getWixOAuthDataCookie() {
   const cookieStore = await cookies();
   const raw = cookieStore.get(WIX_OAUTH_COOKIE)?.value;
@@ -61,9 +74,25 @@ export async function getWixOAuthDataCookie() {
   }
 }
 
+export async function getWixAuthFlowCookie() {
+  const cookieStore = await cookies();
+  const flow = cookieStore.get(WIX_AUTH_FLOW_COOKIE)?.value;
+
+  if (flow === "popup" || flow === "redirect") {
+    return flow;
+  }
+
+  return null;
+}
+
 export async function clearWixOAuthDataCookie() {
   const cookieStore = await cookies();
   cookieStore.delete(WIX_OAUTH_COOKIE);
+}
+
+export async function clearWixAuthFlowCookie() {
+  const cookieStore = await cookies();
+  cookieStore.delete(WIX_AUTH_FLOW_COOKIE);
 }
 
 export async function clearWixTokenCookie() {

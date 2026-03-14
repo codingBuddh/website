@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import * as Dialog from "@radix-ui/react-dialog";
 import CartUI from "../ui/Cart";
+import { WixAuthButton } from "../ui/WixAuthButton";
 
 const navLinks = [
   { label: "Community", href: "/community" },
@@ -52,9 +53,9 @@ export function Header() {
       <a href="#main-content" className="skip-link">
         Skip to main content
       </a>
-      <div className="relative mx-auto flex max-w-350 items-center justify-start md:justify-center rounded-2xl bg-muted-orange h-16.75 md:h-17 px-5">
+      <div className="relative mx-auto flex max-w-350 items-center justify-start lg:justify-center rounded-2xl bg-muted-orange h-16.75 lg:h-17 px-5">
         {/* Mobile: Hamburger */}
-        <div className="flex md:hidden">
+        <div className="flex lg:hidden">
           <Dialog.Root>
             <Dialog.Trigger asChild>
               <button
@@ -103,13 +104,13 @@ export function Header() {
             height={100}
             priority
             sizes="(max-width: 768px) 116px, 164px"
-            className="absolute left-1/2 -translate-x-1/2 md:left-20 md:translate-x-0  w-35 md:h-10 object-cover md:w-35"
+            className="absolute left-1/2 -translate-x-1/2 lg:left-20 lg:translate-x-0  w-35 lg:h-10 object-cover lg:w-35"
             // style={{ filter: "drop-shadow(0px 2.15px 1px #00000040)" }}
           />
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden items-center gap-8 md:flex navbar">
+        <nav className="hidden items-center gap-8 lg:flex navbar">
           {navLinks.map((link) => (
             <Link
               key={link.label}
@@ -122,8 +123,8 @@ export function Header() {
         </nav>
 
         {/* Auth + Cart */}
-        <div className="absolute right-3 md:right-12 flex items-center gap-3">
-          {/* <WixAuthButton /> */}
+        <div className="absolute right-3 lg:right-12 flex items-center gap-3">
+          <WixAuthButton />
           <CartUI />
         </div>
       </div>

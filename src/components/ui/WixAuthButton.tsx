@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useCart } from "@/context/CartContext";
@@ -41,6 +42,25 @@ export function WixAuthButton() {
     void fetchSession();
   }, [refreshCart]);
 
+  useEffect(() => {
+    const handleAuthMessage = (event: MessageEvent) => {
+      if (event.origin !== window.location.origin) return;
+
+      const data = event.data as { type?: string; redirectPath?: string } | null;
+      if (!data?.type || (data.type !== "wix-auth-success" && data.type !== "wix-auth-error")) {
+        return;
+      }
+
+      const redirectPath =
+        data.redirectPath && data.redirectPath.startsWith("/") ? data.redirectPath : "/";
+
+      window.location.assign(redirectPath);
+    };
+
+    window.addEventListener("message", handleAuthMessage);
+    return () => window.removeEventListener("message", handleAuthMessage);
+  }, []);
+
   const returnTo = useMemo(() => {
     if (!pathname || !pathname.startsWith("/")) return "/";
     return pathname;
@@ -62,11 +82,11 @@ export function WixAuthButton() {
   }
 
   return (
-    <a
-      href={`/api/auth/wix/login?returnTo=${encodeURIComponent(returnTo)}`}
+    <Link
+      href={`/login?returnTo=${encodeURIComponent(returnTo)}`}
       className="rounded-full border border-white/70 px-3 py-1 text-xs md:text-sm font-medium text-white hover:bg-white/10 transition-colors whitespace-nowrap"
     >
       Login
-    </a>
+    </Link>
   );
 }

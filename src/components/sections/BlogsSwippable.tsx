@@ -60,7 +60,7 @@ export default function BlogsSwippable({ blogs }: { blogs: any[] }) {
 
                     {/* Title */}
                     <h3
-                      className="font-lato text-[12px] md:text-[24px] leading-snug"
+                      className="font-lato text-[16px] md:text-[26px] leading-snug"
                       style={{ fontWeight: 700 }}
                     >
                       {blog.title}
