@@ -1,11 +1,9 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 
 const footerLinks = [
-  { text: "FAQ", url: "/faq" },
-  { text: "Blogs", url: "/blog" },
+  { text: "FAQ", url: "/#faq" },
+  { text: "Blog", url: "/blog" },
   { text: "Our Story", url: "/about" },
   { text: "Contact", url: "/contact" },
   { text: "Privacy Policy", url: "/privacy" },
@@ -55,7 +53,7 @@ export function Footer() {
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{ backgroundColor: bg }}
-                      className="flex h-10 w-10 items-center justify-center rounded-md overflow-hidden text-xl transition hover:opacity-80"
+                      className="flex min-h-11 min-w-11 items-center justify-center rounded-md overflow-hidden text-xl transition hover:opacity-80"
                     >
                       <Image
                         src={icon}
@@ -127,7 +125,7 @@ export function Footer() {
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{ backgroundColor: bg }}
-                        className="flex h-10 w-10 items-center justify-center rounded-md overflow-hidden text-xl transition hover:opacity-80"
+                        className="flex min-h-11 min-w-11 items-center justify-center rounded-md overflow-hidden text-xl transition hover:opacity-80"
                       >
                         <Image
                           src={icon}

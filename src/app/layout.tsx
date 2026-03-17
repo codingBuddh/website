@@ -72,14 +72,7 @@ const jsonLd = {
       publisher: {
         "@id": "https://kheelona.com/#organization",
       },
-      potentialAction: {
-        "@type": "SearchAction",
-        target: {
-          "@type": "EntryPoint",
-          urlTemplate: "https://kheelona.com/?q={search_term_string}",
-        },
-        "query-input": "required name=search_term_string",
-      },
+      inLanguage: "en-IN",
     },
     {
       "@type": "WebPage",
@@ -292,12 +285,6 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://kheelona.com"),
   alternates: {
     canonical: "/",
-    languages: {
-      "en-US": "/",
-      "en-IN": "/",
-      "hi-IN": "/", // Hindi (India)
-      "x-default": "/",
-    },
   },
   category: "Education",
   classification: "Educational Toys",
@@ -319,7 +306,6 @@ export const metadata: Metadata = {
       { url: "/icons/icon-16x16.png", sizes: "16x16", type: "image/png" },
     ],
     apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
-    other: [{ rel: "mask-icon", url: "/icons/safari-pinned-tab.svg", color: "#EF762F" }],
   },
   // Apple-specific meta tags
   appleWebApp: {

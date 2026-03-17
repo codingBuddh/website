@@ -1,11 +1,9 @@
-"use client";
-
 import Image from "next/image";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 
 export default function AboutHeroSection() {
   return (
-    <section className="relative pt-10 px-4 md:pt-15" aria-labelledby="hero-heading">
+    <section className="relative pt-10 px-4 md:pt-15" aria-labelledby="about-heading">
       <div>
         {/* 1. Heading */}
         <SectionHeader id="about-heading" title="The Story of Kheelona" />

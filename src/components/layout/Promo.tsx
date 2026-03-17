@@ -55,6 +55,7 @@ function Promo() {
             <p className="text-[24px]">Rs {firstProduct?.discountedPrice ?? 2999}</p>
           </div>
           <button
+            aria-label={`Pre-order ${promoProduct.name} for Rs ${promoProduct.discountedPrice}`}
             className="my-auto  font-heading rounded-xl button-secondary whitespace-nowrap px-3 pb-1.5 pt-3 lg:pb-0.5 lg:pt-2 lg:px-10 lg:text-[24px] "
             onClick={() => {
               addToCart(promoProduct as any);

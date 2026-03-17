@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 
@@ -12,7 +10,6 @@ export default function ParentingHelpSection() {
           src="/images/growth.webp"
           alt="Happy parents illustration"
           fill
-          priority
           className="object-cover object-top"
         />
       </div>
@@ -36,7 +33,6 @@ export default function ParentingHelpSection() {
               alt="App notification mock"
               width={426}
               height={627}
-              priority
               className="object-contain w-full"
             />
           </div>

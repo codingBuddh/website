@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import { DecoStar } from "@/components/ui/DecoStar";
 
@@ -19,8 +17,7 @@ export function HeroSection() {
       <div className="mx-auto flex max-w-300 mt-25 flex-col items-center text-center">
         {/* Heading for Mobile - Main h1 */}
         <h1 className="font-heading text-[26px] md:text-[40px] text-stroke-tangerine">
-          {/* Show different text on mobile vs desktop, but use same h1 */}
-          <span>CAn YOUR TOY TALK?</span>
+          <span>CAN YOUR TOY TALK?</span>
         </h1>
 
         {/* Character Image */}

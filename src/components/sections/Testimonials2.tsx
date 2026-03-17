@@ -1,4 +1,3 @@
-"use client";
 import Testimonials2 from "@/components/sections/Testimonials";
 import Image from "next/image";
 
@@ -13,7 +12,6 @@ export default function Testimonials() {
           width={2400}
           height={600}
           className="mx-auto"
-          priority
         />
       </div>
     </section>

@@ -123,11 +123,20 @@ export default function Testimonials() {
           <button
             key={i}
             onClick={() => scrollTo(i)}
+            aria-label={`Go to testimonial ${i + 1}`}
             className={clsx(
-              "h-2 rounded-full transition-all",
-              active === i ? "w-6 bg-orange-500" : "w-2 bg-orange-300"
+              "flex min-h-11 min-w-11 items-center justify-center rounded-full transition-all",
+              active === i ? "bg-orange-100" : "bg-transparent"
             )}
-          />
+          >
+            <span
+              aria-hidden="true"
+              className={clsx(
+                "h-2 rounded-full transition-all",
+                active === i ? "w-6 bg-orange-500" : "w-2 bg-orange-300"
+              )}
+            />
+          </button>
         ))}
       </div>
     </section>

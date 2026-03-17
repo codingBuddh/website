@@ -70,8 +70,8 @@ export default function CartUI() {
     <Dialog.Root open={isCartOpen} onOpenChange={setCartOpen}>
       <Dialog.Trigger asChild>
         <button
-          aria-label="Shopping cart"
-          className="relative flex items-center justify-center rounded-full p-2 text-white hover:bg-white/10 transition-colors cursor-pointer"
+          aria-label={`Shopping cart${itemCount > 0 ? `, ${itemCount} items` : ""}`}
+          className="relative flex min-h-11 min-w-11 items-center justify-center rounded-full p-2 text-white hover:bg-white/10 transition-colors cursor-pointer"
         >
           <ShoppingCart size={22} />
           {itemCount > 0 && (
@@ -90,7 +90,10 @@ export default function CartUI() {
           <div className="w-105 rounded-3xl p-4 relative h-[700] max-h-[80vh] overflow-y-visible">
             {/* Close Button */}
             <Dialog.Close asChild>
-              <button className="absolute -top-8 right-4 w-10 h-10 rounded-full text-black  bg-white border border-[#BDBDBD] flex items-center justify-center hover:bg-gray-100 transition-colors">
+              <button
+                aria-label="Close shopping cart"
+                className="absolute -top-8 right-4 min-h-11 min-w-11 rounded-full text-black bg-white border border-[#BDBDBD] flex items-center justify-center hover:bg-gray-100 transition-colors"
+              >
                 <X size={20} />
               </button>
             </Dialog.Close>
@@ -114,8 +117,9 @@ export default function CartUI() {
                         {/* Product Image */}
                         <div className="relative w-20 h-20 rounded-2xl bg-gray-100 border border-[#BDBDBD] flex items-center justify-center shrink-0">
                           <button
+                            aria-label={`Remove ${item.name} from cart`}
                             onClick={() => removeFromCart(item.id)}
-                            className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-white shadow flex items-center justify-center hover:bg-gray-100 transition-colors border border-[#BDBDBD]"
+                            className="absolute -top-2 -right-2 min-h-11 min-w-11 rounded-full bg-white shadow flex items-center justify-center hover:bg-gray-100 transition-colors border border-[#BDBDBD]"
                           >
                             <X size={14} />
                           </button>
@@ -141,8 +145,9 @@ export default function CartUI() {
                         {/* Quantity Controls */}
                         <div className="flex items-center gap-2 border border-[#C0C0C0] rounded-full px-3 py-1">
                           <button
+                            aria-label={`Decrease quantity of ${item.name}`}
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="flex items-center justify-center w-6 h-6 hover:bg-gray-100 rounded-full transition-colors font-heading leading-0 mt-1 text-[16px]"
+                            className="flex min-h-11 min-w-11 items-center justify-center hover:bg-gray-100 rounded-full transition-colors font-heading leading-0 text-[16px]"
                           >
                             -
                           </button>
@@ -150,8 +155,9 @@ export default function CartUI() {
                             {item.quantity}
                           </span>
                           <button
+                            aria-label={`Increase quantity of ${item.name}`}
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="flex items-center justify-center w-6 h-6 hover:bg-gray-100 rounded-full transition-colors font-heading leading-0 mt-1 text-[16px]"
+                            className="flex min-h-11 min-w-11 items-center justify-center hover:bg-gray-100 rounded-full transition-colors font-heading leading-0 text-[16px]"
                           >
                             +
                           </button>
