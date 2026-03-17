@@ -46,14 +46,8 @@ export default function CartUI() {
 
       const data = (await response.json()) as {
         redirectUrl?: string;
-        loginUrl?: string;
         message?: string;
       };
-
-      if (response.status === 401 && data.loginUrl) {
-        window.location.href = data.loginUrl;
-        return;
-      }
 
       if (!response.ok) {
         throw new Error(data.message || "Failed to create checkout");
