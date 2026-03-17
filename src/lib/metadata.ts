@@ -59,13 +59,7 @@ export function generatePageMetadata(options: PageMetadataOptions): Metadata {
 
     // Canonical and language alternates (hreflang)
     alternates: {
-      canonical: path,
-      languages: {
-        "en-US": path,
-        "en-IN": path,
-        "hi-IN": path, // Hindi (India)
-        "x-default": path,
-      },
+      canonical: fullUrl,
     },
 
     // OpenGraph metadata

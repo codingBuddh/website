@@ -1,8 +1,10 @@
 import { MetadataRoute } from "next";
+import { getBlogs } from "@/lib/wix/services/blogs";
+import { getProducts } from "@/lib/wix/services/products";
 
 const BASE_URL = "https://kheelona.com";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date();
 
   // Main pages
@@ -69,5 +71,33 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  return mainPages;
+  const [products, blogs] = await Promise.allSettled([getProducts(), getBlogs()]);
+
+  const productPages: MetadataRoute.Sitemap =
+    products.status === "fulfilled"
+      ? (products.value ?? [])
+          .filter((product: any) => Boolean(product?.id))
+          .map((product: any) => ({
+            url: `${BASE_URL}/product/${product.id}`,
+            lastModified,
+            changeFrequency: "weekly",
+            priority: 0.8,
+          }))
+      : [];
+
+  const blogPages: MetadataRoute.Sitemap =
+    blogs.status === "fulfilled"
+      ? (blogs.value ?? [])
+          .filter((post: any) => Boolean(post?._id))
+          .map((post: any) => ({
+            url: `${BASE_URL}/blog/${post._id}`,
+            lastModified: post?.firstPublishedDate
+              ? new Date(post.firstPublishedDate)
+              : lastModified,
+            changeFrequency: "monthly",
+            priority: 0.7,
+          }))
+      : [];
+
+  return [...mainPages, ...productPages, ...blogPages];
 }

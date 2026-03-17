@@ -46,23 +46,7 @@ function formatOrderDate(value: string) {
   }).format(date);
 }
 
-function shouldRedirectToSignup(message: string) {
-  const normalized = message.toLowerCase();
-
-  return (
-    normalized.includes("invalid email") ||
-    normalized.includes("couldn't find an account") ||
-    normalized.includes("could not find an account") ||
-    normalized.includes("member not found") ||
-    normalized.includes("user not found") ||
-    normalized.includes("account not found") ||
-    normalized.includes("email doesn't exist") ||
-    normalized.includes("email does not exist") ||
-    normalized.includes("no account")
-  );
-}
-
-export function HeaderMemberControl() {
+export function HeaderMemberControl({ mobileMenu = false }: { mobileMenu?: boolean }) {
   const { refreshCart } = useCart();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [member, setMember] = useState<MemberSession | null>(null);
@@ -210,7 +194,13 @@ export function HeaderMemberControl() {
 
   if (isLoadingSession) {
     return (
-      <div className="flex items-center justify-center rounded-full border border-white/70 px-3 py-1 text-xs md:text-sm font-medium text-white/80">
+      <div
+        className={
+          mobileMenu
+            ? "flex min-h-11 items-center text-sm font-medium text-gray-500"
+            : "flex items-center justify-center rounded-full border border-white/70 px-3 py-1 text-xs font-medium text-white/80 md:text-sm"
+        }
+      >
         <Loader2 size={14} className="animate-spin" />
       </div>
     );
@@ -228,7 +218,13 @@ export function HeaderMemberControl() {
         }}
       >
         <Dialog.Trigger asChild>
-          <button className="rounded-full border border-white/70 px-3 py-1 text-xs md:text-sm font-medium text-white hover:bg-white/10 transition-colors whitespace-nowrap">
+          <button
+            className={
+              mobileMenu
+                ? "flex min-h-11 w-full items-center rounded-xl px-0 py-2 text-left text-lg font-medium text-gray-700 transition-colors hover:text-tangerine"
+                : "whitespace-nowrap rounded-full border border-white/70 px-3 py-2 text-xs font-medium text-white transition-colors hover:bg-white/10 md:text-sm"
+            }
+          >
             Login
           </button>
         </Dialog.Trigger>
@@ -248,7 +244,7 @@ export function HeaderMemberControl() {
             <Dialog.Close asChild>
               <button
                 aria-label="Close member dialog"
-                className="absolute right-4 top-4 rounded-full border border-[#ef762f]/20 bg-white p-2 text-[#4a2511] transition-colors hover:bg-[#fff1e8]"
+                className="absolute right-4 top-4 flex min-h-11 min-w-11 items-center justify-center rounded-full border border-[#ef762f]/20 bg-white p-2 text-[#4a2511] transition-colors hover:bg-[#fff1e8]"
               >
                 <X size={18} />
               </button>
@@ -261,7 +257,7 @@ export function HeaderMemberControl() {
                   setMode("signin");
                   setAuthError("");
                 }}
-                className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                className={`min-h-11 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
                   mode === "signin" ? "bg-[#ef762f] text-white" : "text-[#8c5b3d]"
                 }`}
               >
@@ -273,7 +269,7 @@ export function HeaderMemberControl() {
                   setMode("signup");
                   setAuthError("");
                 }}
-                className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                className={`min-h-11 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
                   mode === "signup" ? "bg-[#ef762f] text-white" : "text-[#8c5b3d]"
                 }`}
               >
@@ -329,7 +325,7 @@ export function HeaderMemberControl() {
                     type="button"
                     aria-label={showPassword ? "Hide password" : "Show password"}
                     onClick={() => setShowPassword((current) => !current)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-[#8c5b3d] transition-colors hover:bg-[#fff1e8]"
+                    className="absolute right-2 top-1/2 flex min-h-11 min-w-11 -translate-y-1/2 items-center justify-center rounded-full p-1 text-[#8c5b3d] transition-colors hover:bg-[#fff1e8]"
                   >
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
@@ -365,7 +361,13 @@ export function HeaderMemberControl() {
   return (
     <Dialog.Root open={accountOpen} onOpenChange={setAccountOpen}>
       <Dialog.Trigger asChild>
-        <button className="inline-flex items-center gap-2 rounded-full border border-white/70 bg-white px-3 py-1 text-xs md:text-sm font-medium text-tangerine whitespace-nowrap">
+        <button
+          className={
+            mobileMenu
+              ? "inline-flex min-h-11 w-full items-center gap-2 rounded-xl px-0 py-2 text-left text-lg font-medium text-gray-700 transition-colors hover:text-tangerine"
+              : "inline-flex min-h-11 items-center gap-2 whitespace-nowrap rounded-full border border-white/70 bg-white px-3 py-2 text-xs font-medium text-tangerine md:text-sm"
+          }
+        >
           <User size={14} />
           <span className="max-w-24 truncate md:max-w-32">{displayName}</span>
         </button>
@@ -385,7 +387,7 @@ export function HeaderMemberControl() {
             <Dialog.Close asChild>
               <button
                 aria-label="Close account dialog"
-                className="absolute right-4 top-4 rounded-full border border-[#ef762f]/20 bg-white p-2 text-[#4a2511] transition-colors hover:bg-[#fff1e8]"
+                className="absolute right-4 top-4 flex min-h-11 min-w-11 items-center justify-center rounded-full border border-[#ef762f]/20 bg-white p-2 text-[#4a2511] transition-colors hover:bg-[#fff1e8]"
               >
                 <X size={18} />
               </button>

@@ -6,9 +6,7 @@
 User-agent: *
 Allow: /
 Disallow: /api/
-Disallow: /_next/
 Disallow: /admin/
-Disallow: /*.json$
 Disallow: /private/
 
 # Sitemap location

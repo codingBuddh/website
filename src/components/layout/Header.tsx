@@ -60,7 +60,7 @@ export function Header() {
             <Dialog.Trigger asChild>
               <button
                 aria-label="Open menu"
-                className="flex items-center justify-center rounded-md p-2 text-white"
+                className="flex min-h-11 min-w-11 items-center justify-center rounded-md p-2 text-white"
               >
                 <Menu size={24} />
               </button>
@@ -73,7 +73,10 @@ export function Header() {
                 <div className="mb-6 flex items-center justify-between">
                   <span className="text-lg font-semibold text-tangerine-500">Menu</span>
                   <Dialog.Close asChild>
-                    <button aria-label="Close menu" className="rounded-md p-2 hover:bg-gray-100">
+                    <button
+                      aria-label="Close menu"
+                      className="flex min-h-11 min-w-11 items-center justify-center rounded-md p-2 hover:bg-gray-100"
+                    >
                       <X size={20} />
                     </button>
                   </Dialog.Close>
@@ -89,6 +92,9 @@ export function Header() {
                       {link.label}
                     </Link>
                   ))}
+                  <div className="border-t border-gray-200 pt-2">
+                    <HeaderMemberControl mobileMenu />
+                  </div>
                 </nav>
               </Dialog.Content>
             </Dialog.Portal>
@@ -124,7 +130,9 @@ export function Header() {
 
         {/* Account + Cart */}
         <div className="absolute right-3 lg:right-12 flex items-center gap-3">
-          <HeaderMemberControl />
+          <div className="hidden lg:block">
+            <HeaderMemberControl />
+          </div>
           <CartUI />
         </div>
       </div>

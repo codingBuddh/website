@@ -18,7 +18,7 @@ export default async function HomePage() {
   const products = await getProducts();
 
   return (
-    <div
+    <main
       style={{ position: "relative", minHeight: "100vh", overflowX: "hidden" }}
       id="main-content"
       tabIndex={-1}
@@ -36,6 +36,6 @@ export default async function HomePage() {
       <WhatsAppCommunity />
       <FAQSection />
       <Footer />
-    </div>
+    </main>
   );
 }
