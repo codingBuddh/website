@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import * as Dialog from "@radix-ui/react-dialog";
 import CartUI from "../ui/Cart";
-import { WixAuthButton } from "../ui/WixAuthButton";
+import { HeaderMemberControl } from "../ui/HeaderMemberControl";
 
 const navLinks = [
   { label: "Community", href: "/community" },
@@ -122,9 +122,9 @@ export function Header() {
           ))}
         </nav>
 
-        {/* Auth + Cart */}
+        {/* Account + Cart */}
         <div className="absolute right-3 lg:right-12 flex items-center gap-3">
-          <WixAuthButton />
+          <HeaderMemberControl />
           <CartUI />
         </div>
       </div>

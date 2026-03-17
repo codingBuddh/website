@@ -30,20 +30,6 @@ function getReturnTo(request: NextRequest) {
   }
 }
 
-function isUnauthorizedError(error: unknown) {
-  const err = error as {
-    status?: number;
-    statusCode?: number;
-    details?: { httpStatusCode?: number };
-  };
-  return (
-    err?.status === 401 ||
-    err?.statusCode === 401 ||
-    err?.details?.httpStatusCode === 401 ||
-    String(error).includes("401")
-  );
-}
-
 async function createWixCheckoutClient() {
   if (!isWixConfigured()) {
     throw new Error("Wix client ID not configured");
@@ -102,15 +88,6 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json<CheckoutResponse>({ redirectUrl });
   } catch (error) {
-    if (isUnauthorizedError(error)) {
-      const returnTo = getReturnTo(request);
-      const loginUrl = `/api/auth/wix/login?returnTo=${encodeURIComponent(returnTo)}`;
-      return NextResponse.json(
-        { message: "Please login to continue checkout", loginUrl },
-        { status: 401 }
-      );
-    }
-
     const err = error as WixError;
     const devDetails =
       process.env.NODE_ENV !== "production"
