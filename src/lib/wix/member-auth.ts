@@ -1,6 +1,7 @@
 import { ApiKeyStrategy, createClient, OAuthStrategy } from "@wix/sdk";
 import { orders } from "@wix/ecom";
 import { authentication, members } from "@wix/members";
+import { recovery } from "@wix/identity";
 import { clearWixTokenCookie, getWixTokenStorage, isWixConfigured } from "./auth";
 
 function getRequiredEnv(name: "NEXT_PUBLIC_WIX_CLIENT_ID" | "WIX_API_KEY" | "WIX_ACCOUNT_ID") {
@@ -40,7 +41,7 @@ export async function createHeadlessMemberClient() {
   const tokenStorage = await getWixTokenStorage();
 
   const client = createClient({
-    modules: { authentication, members },
+    modules: { authentication, members, recovery },
     auth: OAuthStrategy({
       clientId: getRequiredEnv("NEXT_PUBLIC_WIX_CLIENT_ID"),
       tokenStorage,
