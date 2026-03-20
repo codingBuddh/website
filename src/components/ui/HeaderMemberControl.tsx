@@ -48,11 +48,12 @@ function formatOrderDate(value: string) {
 
 export function HeaderMemberControl({ mobileMenu = false }: { mobileMenu?: boolean }) {
   const { refreshCart } = useCart();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [mode, setMode] = useState<"signin" | "signup" | "forgot">("signin");
   const [member, setMember] = useState<MemberSession | null>(null);
   const [isLoadingSession, setIsLoadingSession] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [authError, setAuthError] = useState("");
+  const [authSuccess, setAuthSuccess] = useState("");
   const [authOpen, setAuthOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -132,6 +133,7 @@ export function HeaderMemberControl({ mobileMenu = false }: { mobileMenu?: boole
   const resetForm = () => {
     setForm(initialAuthForm);
     setAuthError("");
+    setAuthSuccess("");
     setShowPassword(false);
   };
 
@@ -144,10 +146,22 @@ export function HeaderMemberControl({ mobileMenu = false }: { mobileMenu?: boole
     setAuthError("");
 
     try {
-      const response = await fetch(mode === "signin" ? "/api/member/login" : "/api/member/signup", {
+      const endpoint =
+        mode === "signin"
+          ? "/api/member/login"
+          : mode === "signup"
+            ? "/api/member/signup"
+            : "/api/member/forgot-password";
+      const payload =
+        mode === "forgot"
+          ? {
+              email: form.email,
+            }
+          : form;
+      const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
 
       const data = (await response.json()) as {
@@ -155,6 +169,16 @@ export function HeaderMemberControl({ mobileMenu = false }: { mobileMenu?: boole
         member?: MemberSession;
         message?: string;
       };
+
+      if (mode === "forgot") {
+        if (!response.ok || !data.success) {
+          throw new Error(data.message || "Unable to send password reset email");
+        }
+
+        setAuthSuccess(data.message || "Password reset email sent");
+        setAuthError("");
+        return;
+      }
 
       if (!response.ok || !data.success || !data.member) {
         throw new Error(data.message || "Authentication failed");
@@ -171,10 +195,19 @@ export function HeaderMemberControl({ mobileMenu = false }: { mobileMenu?: boole
       if (mode === "signin" && message) {
         setMode("signup");
         setAuthError("We couldn't find an account with that email. Please sign up instead.");
+        setAuthSuccess("");
+        return;
+      }
+
+      if (mode === "signup" && message) {
+        setMode("signin");
+        setAuthError("This email is already registered. Please sign in instead.");
+        setAuthSuccess("");
         return;
       }
 
       setAuthError(message);
+      setAuthSuccess("");
     } finally {
       setIsSubmitting(false);
     }
@@ -212,9 +245,8 @@ export function HeaderMemberControl({ mobileMenu = false }: { mobileMenu?: boole
         open={authOpen}
         onOpenChange={(open) => {
           setAuthOpen(open);
-          if (!open) {
-            resetForm();
-          }
+          setMode("signin");
+          resetForm();
         }}
       >
         <Dialog.Trigger asChild>
@@ -233,12 +265,18 @@ export function HeaderMemberControl({ mobileMenu = false }: { mobileMenu?: boole
           <Dialog.Overlay className="fixed inset-0 z-60 bg-black/45 backdrop-blur-sm" />
           <Dialog.Content className="fixed left-1/2 top-1/2 z-70 w-[calc(100vw-2rem)] max-w-[440px] -translate-x-1/2 -translate-y-1/2 rounded-[28px] border border-[#f1c7aa] bg-[linear-gradient(180deg,#fff6ee_0%,#ffffff_100%)] p-6 shadow-[0_30px_100px_rgba(74,37,17,0.18)]">
             <Dialog.Title className="text-3xl text-[#4a2511] font-semibold">
-              {mode === "signin" ? "Welcome back" : "Make an account"}
+              {mode === "signin"
+                ? "Welcome back"
+                : mode === "signup"
+                  ? "Make an account"
+                  : "Reset your password"}
             </Dialog.Title>
             <Dialog.Description className="mt-2 text-sm leading-6 text-[#7b5c49]">
               {mode === "signin"
                 ? "Sign in with your email and password to see your orders and continue your Kheelona journey."
-                : "Create your account with your name, email, and password so you can track orders easily."}
+                : mode === "signup"
+                  ? "Create your account with your name, email, and password so you can track orders easily."
+                  : "Enter your email and we’ll send you a password reset link."}
             </Dialog.Description>
 
             <Dialog.Close asChild>
@@ -256,6 +294,7 @@ export function HeaderMemberControl({ mobileMenu = false }: { mobileMenu?: boole
                 onClick={() => {
                   setMode("signin");
                   setAuthError("");
+                  setAuthSuccess("");
                 }}
                 className={`min-h-11 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
                   mode === "signin" ? "bg-[#ef762f] text-white" : "text-[#8c5b3d]"
@@ -268,6 +307,7 @@ export function HeaderMemberControl({ mobileMenu = false }: { mobileMenu?: boole
                 onClick={() => {
                   setMode("signup");
                   setAuthError("");
+                  setAuthSuccess("");
                 }}
                 className={`min-h-11 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
                   mode === "signup" ? "bg-[#ef762f] text-white" : "text-[#8c5b3d]"
@@ -308,33 +348,59 @@ export function HeaderMemberControl({ mobileMenu = false }: { mobileMenu?: boole
                 />
               </label>
 
-              <label className="block">
-                <span className="mb-2 block text-sm font-medium text-[#6b4a36]">Password</span>
-                <div className="relative">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    value={form.password}
-                    onChange={(event) =>
-                      setForm((current) => ({ ...current, password: event.target.value }))
-                    }
-                    className="w-full rounded-2xl border border-[#e7d5c8] bg-white px-4 py-3 pr-12 text-[#4a2511] outline-none transition-colors focus:border-[#ef762f]"
-                    placeholder="Your password"
-                    required
-                  />
-                  <button
-                    type="button"
-                    aria-label={showPassword ? "Hide password" : "Show password"}
-                    onClick={() => setShowPassword((current) => !current)}
-                    className="absolute right-2 top-1/2 flex min-h-11 min-w-11 -translate-y-1/2 items-center justify-center rounded-full p-1 text-[#8c5b3d] transition-colors hover:bg-[#fff1e8]"
-                  >
-                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                  </button>
-                </div>
-              </label>
+              {mode !== "forgot" ? (
+                <>
+                  <label className="block">
+                    <span className="mb-2 block text-sm font-medium text-[#6b4a36]">Password</span>
+                    <div className="relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        value={form.password}
+                        onChange={(event) =>
+                          setForm((current) => ({ ...current, password: event.target.value }))
+                        }
+                        className="w-full rounded-2xl border border-[#e7d5c8] bg-white px-4 py-3 pr-12 text-[#4a2511] outline-none transition-colors focus:border-[#ef762f]"
+                        placeholder="Your password"
+                        required
+                      />
+                      <button
+                        type="button"
+                        aria-label={showPassword ? "Hide password" : "Show password"}
+                        onClick={() => setShowPassword((current) => !current)}
+                        className="absolute right-2 top-1/2 flex min-h-11 min-w-11 -translate-y-1/2 items-center justify-center rounded-full p-1 text-[#8c5b3d] transition-colors hover:bg-[#fff1e8]"
+                      >
+                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                      </button>
+                    </div>
+                  </label>
+
+                  {mode === "signin" ? (
+                    <div className="flex justify-end">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setMode("forgot");
+                          setAuthError("");
+                          setAuthSuccess("");
+                        }}
+                        className="min-h-11 text-sm font-medium text-[#50B2D5] transition-colors hover:text-[#2d92b7]"
+                      >
+                        Forgot password?
+                      </button>
+                    </div>
+                  ) : null}
+                </>
+              ) : null}
 
               {authError ? (
                 <p className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
                   {authError}
+                </p>
+              ) : null}
+
+              {authSuccess ? (
+                <p className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+                  {authSuccess}
                 </p>
               ) : null}
 
@@ -346,11 +412,29 @@ export function HeaderMemberControl({ mobileMenu = false }: { mobileMenu?: boole
                 {isSubmitting
                   ? mode === "signin"
                     ? "Signing you in..."
-                    : "Creating your account..."
+                    : mode === "signup"
+                      ? "Creating your account..."
+                      : "Sending reset link..."
                   : mode === "signin"
                     ? "Sign in"
-                    : "Create account"}
+                    : mode === "signup"
+                      ? "Create account"
+                      : "Send reset link"}
               </button>
+
+              {mode === "forgot" ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMode("signin");
+                    setAuthError("");
+                    setAuthSuccess("");
+                  }}
+                  className="w-full text-sm font-medium text-[#8c5b3d] transition-colors hover:text-[#4a2511]"
+                >
+                  Back to sign in
+                </button>
+              ) : null}
             </form>
           </Dialog.Content>
         </Dialog.Portal>
