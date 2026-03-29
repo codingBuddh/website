@@ -15,6 +15,12 @@ type WixError = {
   details?: { httpStatusCode?: number; applicationError?: { description?: string } };
 };
 
+function buildCallbackUrl(origin: string, pathname: string, returnTo: string) {
+  const url = new URL(pathname, origin);
+  url.searchParams.set("returnTo", returnTo);
+  return url.toString();
+}
+
 function getReturnTo(request: NextRequest) {
   const returnTo = request.nextUrl.searchParams.get("returnTo");
   if (returnTo && returnTo.startsWith("/")) return returnTo;
@@ -64,12 +70,16 @@ export async function POST(request: NextRequest) {
 
     let redirectUrl = "";
     try {
+      const thankYouPageUrl = buildCallbackUrl(origin, "/checkout/success", returnTo);
+      const postFlowUrl = buildCallbackUrl(origin, "/checkout/failure", returnTo);
+
       const redirectSession = await wixClient.redirects.createRedirectSession({
         ecomCheckout: {
           checkoutId: checkout.checkoutId,
         },
         callbacks: {
-          postFlowUrl: `${origin}${returnTo}`,
+          thankYouPageUrl,
+          postFlowUrl,
         },
         origin,
       });
