@@ -107,12 +107,6 @@ export default function CartUI() {
                 </div>
               ) : (
                 <div className="flex flex-col h-full">
-                  <div className="mb-3 flex justify-end">
-                    <span className="rounded-full border border-[#D9EAF0] bg-[#F7FCFE] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-[#6E8A96]">
-                      Updated
-                    </span>
-                  </div>
-
                   {/* Cart Items */}
                   <div className="grow space-y-4 mb-6 h-[calc(100%-255px)] ">
                     {cartItems.map((item) => (
