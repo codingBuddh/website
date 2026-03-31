@@ -1,3 +1,4 @@
+import { unstable_noStore as noStore } from "next/cache";
 import { wixClient } from "../client";
 
 // Fallback products data for when Wix API is unavailable (build time, errors, etc.)
@@ -26,6 +27,8 @@ const fallbackProducts = [
 ];
 
 export async function getProducts() {
+  noStore();
+
   try {
     // Check if we have the required environment variable
     if (!process.env.NEXT_PUBLIC_WIX_CLIENT_ID) {

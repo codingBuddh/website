@@ -1,6 +1,9 @@
+import { unstable_noStore as noStore } from "next/cache";
 import { wixClient } from "../client";
 
 export async function getProductById(productId: string) {
+  noStore();
+
   try {
     // Check if we have the required environment variable
     if (!process.env.NEXT_PUBLIC_WIX_CLIENT_ID) {
