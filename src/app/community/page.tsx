@@ -9,15 +9,18 @@ import CommunityHeroSection from "@/components/sections/CommunityHeroSection";
 import { generatePageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "Kheelona Community - Parent Stories, Tips & Support",
+  title: "Parenting Community & Free Child Counseling | Kheelona",
   description:
-    "Join the Kheelona parent community for tips, shared experiences, expert guidance, and playful ideas to support your child's growth with Lumi.",
+    "Join the Kheelona WhatsApp community for smart parenting tips, child development support, and free expert counseling for your child's emotional health.",
   keywords: [
-    "Kheelona community",
-    "parent community",
-    "Lumi parents",
-    "parenting support India",
-    "screen-free parenting",
+    "parenting help",
+    "child counseling",
+    "toddler development",
+    "smart parenting",
+    "kids mental health",
+    "parenting group",
+    "reduce screen time",
+    "child psychology",
   ],
   path: "/community",
   ogType: "website",
@@ -26,6 +29,7 @@ export const metadata: Metadata = generatePageMetadata({
 export default async function HomePage() {
   return (
     <main id="main-content" tabIndex={-1}>
+      <h1 className="sr-only">Kheelona Parenting Community: Free Counseling &amp; Support.</h1>
       <Header />
       <CommunityHeroSection />
       <OnlineSession />

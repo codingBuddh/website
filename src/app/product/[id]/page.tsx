@@ -49,18 +49,36 @@ export async function generateMetadata({
     });
   }
 
+  const nameLower = product.name.toLowerCase();
+  const color =
+    nameLower.includes("pink")
+      ? "Pink"
+      : nameLower.includes("green")
+        ? "Green"
+        : nameLower.includes("blue")
+          ? "Blue"
+          : "Color";
+
   return generatePageMetadata({
-    title: `${product.name} | Lumi by Kheelona`,
+    title: `Buy LUMI ${color} | Interactive Talking Toy & Brain Builder`,
     description:
-      product.seoData?.description ||
-      product.description ||
-      `${product.name} by Kheelona. Discover a screen-free AI-powered educational toy designed to help children learn through play.`,
+      "Order the LUMI " +
+      color +
+      " smart toy for Rs 2999. A safe, voice-interactive educational friend that builds curiosity, manners, and brain power without screens.",
     keywords: [
-      product.name,
-      "Lumi toy",
-      "AI educational toy",
-      "screen-free toy India",
-      "talking toy for kids",
+      "buy ai toy",
+      "talking plush",
+      "smart doll",
+      "kids interactive plush",
+      "voice toy",
+      "buy smart toy",
+      "educational robot",
+      "tech plush",
+      "learn to talk toy",
+      "ai buddy",
+      `${color.toLowerCase()} smart toy`,
+      `${color.toLowerCase()} learning toy`,
+      `${color.toLowerCase()} talking toy`,
     ],
     path: `/product/${id}`,
     ogType: "website",

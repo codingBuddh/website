@@ -17,7 +17,7 @@ export function HeroSection() {
       <div className="mx-auto flex max-w-300 mt-25 flex-col items-center text-center">
         {/* Heading for Mobile - Main h1 */}
         <h1 className="font-heading text-[26px] md:text-[40px] text-stroke-tangerine">
-          <span>CAN YOUR TOY TALK?</span>
+          <span>LUMI: Your Child&apos;s Smartest Learning Friend.</span>
         </h1>
 
         {/* Character Image */}

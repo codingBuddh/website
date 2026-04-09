@@ -14,18 +14,18 @@ import WhatsAppCommunity from "@/components/sections/WhatsAppCommunity2";
 
 // SEO Metadata for About page
 export const metadata: Metadata = generatePageMetadata({
-  title: "About Kheelona - Our Mission & Story",
+  title: "Our Story | Kheelona - Safe & Smart Toys Made in India",
   description:
-    "Kheelona Robotics creates AI-powered educational toys that help children learn through play. Learn about our mission to reduce screen time and nurture curious minds.",
+    "Discover Kheelona. Backed by NASSCOM, we build safe, screen-free AI educational toys designed by experts to be your child’s smartest friend.",
   keywords: [
-    "Kheelona company",
-    "about Kheelona",
-    "Kheelona Robotics",
-    "AI toy company India",
-    "educational toy startup",
-    "Lumi creators",
-    "EdTech India",
-    "children education startup",
+    "safe ai toys",
+    "indian toy brand",
+    "kheelona",
+    "safe kids tech",
+    "toy startup india",
+    "trusted learning toys",
+    "nasscom startup toys",
+    "child safe ai",
   ],
   path: "/about",
   ogType: "website",
@@ -107,6 +107,7 @@ export default async function AboutPage() {
         <Header />
 
         <main id="main-content" className="flex-1 pt-24 md:pt-28">
+          <h1 className="sr-only">Building Safe, Smart Friends for Growing Minds.</h1>
           {/* Hero Section */}
           <AboutHeroSection />
           <TrustBadges bg="bg-tangerine" />

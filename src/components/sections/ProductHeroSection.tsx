@@ -41,6 +41,8 @@ const ProductHero = ({ product }: { product: WixProduct }) => {
     product.media?.items?.[0]?.image?.url ?? ""
   );
 
+  const h1 = `Buy ${product.name}: The Ultimate Smart Companion.`;
+
   return (
     <section className="relative max-w-6xl mx-auto px-4 pt-40">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
@@ -81,7 +83,7 @@ const ProductHero = ({ product }: { product: WixProduct }) => {
 
         {/* Right: Content */}
         <div>
-          <h1 className="md:text-[45px] text-[24px] font-semibold ">{product.name}</h1>
+          <h1 className="md:text-[45px] text-[24px] font-semibold ">{h1}</h1>
           <p className="text-[26px]">A dino That can Talk!</p>
           <div className="flex items-center gap-2 mt-2 text-2xl">
             <span className="text-[#FFD802]">★ ★ ★ ★ ★</span>

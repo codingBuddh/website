@@ -13,6 +13,31 @@ import FAQSection from "@/components/sections/FAQSection";
 
 import { getProducts } from "@/lib/wix/services/products";
 import Promo from "@/components/layout/Promo";
+import type { Metadata } from "next";
+import { generatePageMetadata } from "@/lib/metadata";
+
+export const metadata: Metadata = generatePageMetadata({
+  title: "LUMI by Kheelona | Smart AI Learning Toy & Kids Companion",
+  description:
+    "Meet LUMI, the screen-free talking toy for kids. Boost brain development, learn languages, and give your child a smart, safe interactive friend.",
+  keywords: [
+    "brain toys",
+    "smart toys",
+    "ai toys",
+    "learning toys",
+    "educational toys",
+    "talking toys",
+    "kids robot",
+    "interactive toys",
+    "smart companion",
+    "screen free toys",
+    "stem toys",
+    "tech toys for kids",
+    "robot friend",
+  ],
+  path: "/",
+  ogType: "website",
+});
 
 export default async function HomePage() {
   const products = await getProducts();

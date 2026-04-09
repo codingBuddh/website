@@ -5,6 +5,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import BlogsGrid from "@/components/sections/BlogsGrid";
 import WhatsAppCommunity from "@/components/sections/WhatsAppCommunity";
+import type { Metadata } from "next";
+import { generatePageMetadata } from "@/lib/metadata";
 
 export const getWixImageUrl = (wixImage: string, width = 800, height = 600) => {
   if (!wixImage) return "";
@@ -14,6 +16,55 @@ export const getWixImageUrl = (wixImage: string, width = 800, height = 600) => {
 
   return `https://static.wixstatic.com/media/${imageId}/v1/fill/w_${width},h_${height},al_c,q_90/${imageId}`;
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const { post }: any = await getBlogById(id);
+
+  if (!post) {
+    return generatePageMetadata({
+      title: "Blog",
+      description:
+        "Read expert tips on kids' brain development, reducing screen time, and smart parenting from Kheelona.",
+      path: `/blog/${id}`,
+      ogType: "article",
+      noIndex: true,
+    });
+  }
+
+  const title = String(post?.title ?? "Kheelona Blog");
+  const description = String(post?.excerpt ?? "").trim().slice(0, 180) ||
+    "Expert tips on kids' brain development, reducing screen time, and smart parenting from Kheelona.";
+
+  const publishedTime = post?.firstPublishedDate ? new Date(post.firstPublishedDate).toISOString() : undefined;
+  const modifiedTime = post?.lastPublishedDate ? new Date(post.lastPublishedDate).toISOString() : undefined;
+
+  const imageUrl = findFirstRichContentImageUrl(post?.richContent) ||
+    getWixImageUrl(post?.media?.wixMedia?.image, 1200, 700) ||
+    "/images/og-image.jpg";
+
+  return generatePageMetadata({
+    title,
+    description,
+    keywords: [
+      "brain development",
+      "toddler learning",
+      "parenting tips",
+      "screen free play",
+      "early learning",
+      "kids vocabulary",
+    ],
+    path: `/blog/${id}`,
+    ogType: "article",
+    ogImage: imageUrl,
+    publishedTime,
+    modifiedTime,
+  });
+}
 
 function escapeHtml(value: string): string {
   return value
